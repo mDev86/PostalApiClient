@@ -1,0 +1,93 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TargetFramework>net7.0</TargetFramework>
+        <Title>PostalApiClient</Title>
+        <Authors>mDev</Authors>
+        <Description>Api client for mail delivery platform Postal </Description>
+        <Copyright>2024 mDev</Copyright>
+        <PackageProjectUrl>https://github.com/mDev86/PostalApiClient</PackageProjectUrl>
+        <PackageIcon>logo.png</PackageIcon>
+        <RepositoryUrl>https://github.com/mDev86/PostalApiClient</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>Postal Postal.io PostalServer Api mail</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+      <PackageReference Include="MyCSharp.HttpUserAgentParser" Version="3.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.5\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="v1\Sends\Models\PostalMessageAttachment.cs">
+        <DependentUpon>PostalMessage.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfo\MessageStatus.cs">
+        <DependentUpon>MessageData.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfo\MessageHeader.cs">
+        <DependentUpon>MessageData.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfos\MessageLoad.cs">
+        <DependentUpon>MessageActivityEntry.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfos\MessageClick.cs">
+        <DependentUpon>MessageActivityEntry.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfos\MessageHeader.cs">
+        <DependentUpon>MessageInfo.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfos\MessageDetail.cs">
+        <DependentUpon>MessageInfo.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfos\MessageActivityEntry.cs">
+        <DependentUpon>MessageInfo.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfos\MessageInspection.cs">
+        <DependentUpon>MessageInfo.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfos\MessageStatus.cs">
+        <DependentUpon>MessageInfo.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfos\MessageAttachment.cs">
+        <DependentUpon>MessageInfo.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfos\DeliveryStatus.cs">
+        <DependentUpon>MessageStatus.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfos\MessageDirection.cs">
+        <DependentUpon>MessageDetail.cs</DependentUpon>
+      </Compile>
+      <Compile Update="v1\Models\MessageInfos\MessageSpamCheck.cs">
+        <DependentUpon>MessageInspection.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Utilities\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="logo.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
+      <None Include="..\logo.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+        <Link>logo.png</Link>
+      </None>
+    </ItemGroup>
+
+</Project>
