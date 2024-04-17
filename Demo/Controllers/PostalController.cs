@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using PostalApiClient.Mvc.Extensions;
+using PostalApiClient.Utilities;
 using PostalApiClient.v1;
 using PostalApiClient.v1.Messages.Models;
 using PostalApiClient.v1.Models.Webhook;
@@ -92,11 +94,29 @@ public class PostalController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult ReceiveWebhook([FromBody] PostalWebhook payload)
+    public async Task<IActionResult> ReceiveWebhook([FromBody] PostalWebhook payload, 
+        [FromServices] PostalWebhookVerifier signatureVerifier)
+    {
+        // Check signature
+        var isVerified = signatureVerifier.IsSignatureVerified(payload, Request.Headers);
+        
+        // !!IMPORTANT!! not use this method after request body already read.
+        // This Request.Body usually is empty and verifier return always false
+        var badUse = await signatureVerifier.IsSignatureVerifiedAsync(Request);
+         
+        // Your webhook handler code
+        /// ...
+        
+        return Ok();
+    }
+    
+    [HttpPost]
+    [PostalSignatureVerify]
+    public IActionResult ReceiveWebhookWithSignatureVerify([FromBody] PostalWebhook payload)
     {
         // ... 
         // Your webhook handler code
-        
+
         return Ok();
     }
 }

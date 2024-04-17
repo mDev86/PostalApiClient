@@ -14,4 +14,9 @@ public class Options
     /// Credential API key
     /// </summary>
     public string ApiKey { get; set; }
+
+    /// <summary>
+    /// Server DKIM Public key
+    /// </summary>
+    public string? DkimP { get; set; }
 }

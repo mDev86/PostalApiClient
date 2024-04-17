@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\PostalApiClient.Mvc.Extensions\PostalApiClient.Mvc.Extensions.csproj" />
       <ProjectReference Include="..\PostalApiClient\PostalApiClient.csproj" />
     </ItemGroup>
 
