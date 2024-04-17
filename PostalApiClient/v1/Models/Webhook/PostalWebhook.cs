@@ -13,16 +13,16 @@ public class PostalWebhook
     private JsonElement _payload;
 
     /// <summary>
-    /// Event uuid
-    /// </summary>
-    [JsonPropertyName("uuid")]
-    public Guid Uuid { get; init; }
-    
-    /// <summary>
     /// Event
     /// </summary>
     [JsonPropertyName("event")]
     public WebhookEvent Event { get; init; }
+
+    /// <summary>
+    /// The timestamp of the event
+    /// </summary>
+    [JsonPropertyName("timestamp")]
+    public double? Timestamp { get; init; }
 
     /// <summary>
     /// Raw payload
@@ -88,11 +88,11 @@ public class PostalWebhook
     public DNSErrorEvent? DNSErrorEvent { get; private init; }
     
     /// <summary>
-    /// The timestamp of the event
+    /// Event uuid
     /// </summary>
-    [JsonPropertyName("timestamp")]
-    public double? Timestamp { get; init; }
-
+    [JsonPropertyName("uuid")]
+    public Guid Uuid { get; init; }
+    
     /// <summary>
     /// The timestamp of the event converted to DateTime.
     /// </summary>

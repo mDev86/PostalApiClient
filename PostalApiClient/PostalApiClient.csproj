@@ -8,15 +8,18 @@
         <Authors>mDev</Authors>
         <Description>Api client for mail delivery platform Postal </Description>
         <Copyright>2024 mDev</Copyright>
-        <PackageProjectUrl>https://github.com/mDev86/PostalApiClient</PackageProjectUrl>
+        <PackageProjectUrl></PackageProjectUrl>
         <PackageIcon>logo.png</PackageIcon>
         <RepositoryUrl>https://github.com/mDev86/PostalApiClient</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>Postal Postal.io PostalServer Api mail</PackageTags>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Version>1.1.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
       <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
@@ -72,10 +75,6 @@
       <Compile Update="v1\Models\MessageInfos\MessageSpamCheck.cs">
         <DependentUpon>MessageInspection.cs</DependentUpon>
       </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Utilities\" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PostalApiClient.Utilities;
 using PostalApiClient.v1;
 
 namespace PostalApiClient;
@@ -54,6 +55,8 @@ public static class ConfigurationExtensions
             services.PostConfigure<Options>(configure.Invoke);
         }
 
+        services.AddScoped<PostalWebhookVerifier>();
+        
         return services
             .AddHttpClient<PostalClient>();
     }
