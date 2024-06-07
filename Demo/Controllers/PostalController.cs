@@ -47,69 +47,69 @@ public class PostalController : ControllerBase
                 {"CustomMessageHeader","HeaderValue"}
             }
         };
-      
-        var (result, error) = await _postalClient.SendMessageAsync(message); 
-        
-        return result != null
-            ? Ok(result)
-            : BadRequest(error);
+
+        var result = await _postalClient.SendMessageAsync(message);
+
+        return result.IsT0
+            ? Ok(result.AsT0)
+            : BadRequest(result.AsT1);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetMessageDetails(int messageId, bool? allExpansions)
     {
-        var (result, error) = allExpansions == true
+        var result = allExpansions == true
             ? await _postalClient.GetMessageDetailsAsync(messageId, MessageExpansion.All)
-            : await _postalClient.GetMessageDetailsAsync(messageId); 
-        
-        return result != null
-            ? Ok(result)
-            : BadRequest(error);
+            : await _postalClient.GetMessageDetailsAsync(messageId);
+
+        return result.IsT0
+           ? Ok(result.AsT0)
+           : BadRequest(result.AsT1);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetMessageDetailsWithSomeExpansions(int messageId)
     {
-        var (result, error) = await _postalClient.GetMessageDetailsAsync(messageId,
-            MessageExpansion.Status | MessageExpansion.PlainBody); 
-        
-        return result != null
-            ? Ok(result)
-            : BadRequest(error);
+        var result = await _postalClient.GetMessageDetailsAsync(messageId,
+            MessageExpansion.Status | MessageExpansion.PlainBody);
+
+        return result.IsT0
+            ? Ok(result.AsT0)
+            : BadRequest(result.AsT1);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetMessageDeliveries(int messageId)
     {
-        var (result, error) = await _postalClient.GetMessageDeliveriesAsync(messageId);
+        var result = await _postalClient.GetMessageDeliveriesAsync(messageId);
 
-        if (error != null)
+        if (result.IsT1)
         {
             // error handler
         }
-        
-        return result != null
-            ? Ok(result)
-            : BadRequest(error);
+
+        return result.IsT0
+            ? Ok(result.AsT0)
+            : BadRequest(result.AsT1);
     }
 
     [HttpPost]
-    public async Task<IActionResult> ReceiveWebhook([FromBody] PostalWebhook payload, 
+    public async Task<IActionResult> ReceiveWebhook([FromBody] PostalWebhook payload,
         [FromServices] PostalWebhookVerifier signatureVerifier)
     {
         // Check signature
         var isVerified = signatureVerifier.IsSignatureVerified(payload, Request.Headers);
-        
+
         // !!IMPORTANT!! not use this method after request body already read.
         // This Request.Body usually is empty and verifier return always false
         var badUse = await signatureVerifier.IsSignatureVerifiedAsync(Request);
-         
+
         // Your webhook handler code
         /// ...
-        
+
         return Ok();
     }
-    
+
     [HttpPost]
     [PostalSignatureVerify]
     public IActionResult ReceiveWebhookWithSignatureVerify([FromBody] PostalWebhook payload)
