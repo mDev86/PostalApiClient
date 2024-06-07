@@ -50,9 +50,10 @@ public class PostalController : ControllerBase
 
         var result = await _postalClient.SendMessageAsync(message);
 
-        return result.IsT0
-            ? Ok(result.AsT0)
-            : BadRequest(result.AsT1);
+        return result.Match<IActionResult>(
+            response => Ok(response),
+            error => BadRequest(error)
+            );
     }
 
     [HttpGet]
@@ -62,9 +63,10 @@ public class PostalController : ControllerBase
             ? await _postalClient.GetMessageDetailsAsync(messageId, MessageExpansion.All)
             : await _postalClient.GetMessageDetailsAsync(messageId);
 
-        return result.IsT0
-           ? Ok(result.AsT0)
-           : BadRequest(result.AsT1);
+        return result.Match<IActionResult>(
+            response => Ok(response),
+            error => BadRequest(error)
+            );
     }
 
     [HttpGet]
@@ -73,9 +75,10 @@ public class PostalController : ControllerBase
         var result = await _postalClient.GetMessageDetailsAsync(messageId,
             MessageExpansion.Status | MessageExpansion.PlainBody);
 
-        return result.IsT0
-            ? Ok(result.AsT0)
-            : BadRequest(result.AsT1);
+        return result.Match<IActionResult>(
+            response => Ok(response),
+            error => BadRequest(error)
+            );
     }
 
     [HttpGet]
@@ -88,9 +91,10 @@ public class PostalController : ControllerBase
             // error handler
         }
 
-        return result.IsT0
-            ? Ok(result.AsT0)
-            : BadRequest(result.AsT1);
+        return result.Match<IActionResult>(
+            response => Ok(response),
+            error => BadRequest(error)
+            );
     }
 
     [HttpPost]
