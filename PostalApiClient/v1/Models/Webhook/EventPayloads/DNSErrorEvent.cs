@@ -16,25 +16,25 @@ public class DNSErrorEvent
     public double? DnsCheckedAt { get; set; }
     
     [JsonPropertyName("spf_status")]
-    public bool SpfStatus { get; set; }
+    public DNSCheckStatus SpfStatus { get; set; }
     
     [JsonPropertyName("spf_error")]
     public string? SpfError { get; set; }
     
     [JsonPropertyName("dkim_status")]
-    public bool DkimStatus { get; set; }
+    public DNSCheckStatus DkimStatus { get; set; }
     
     [JsonPropertyName("dkim_error")]
     public string? DkimError { get; set; }
     
     [JsonPropertyName("mx_status")]
-    public bool MxStatus { get; set; }
+    public DNSCheckStatus MxStatus { get; set; }
     
     [JsonPropertyName("mx_error")]
     public string? MxError { get; set; }
     
     [JsonPropertyName("return_path_status")]
-    public bool ReturnPathStatus { get; set; }
+    public DNSCheckStatus ReturnPathStatus { get; set; }
     
     [JsonPropertyName("return_path_error")]
     public string? ReturnPathError { get; set; }
@@ -59,17 +59,29 @@ public class DNSErrorEvent
     }
 }
 
+/// <summary>
+/// Postal mail server info
+/// </summary>
 public class DnsCheckServer
 {
     [JsonPropertyName("uuid")]
     public string Uuid { get; set; }
     
+    /// <summary>
+    /// Server name
+    /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
     
+    /// <summary>
+    /// Server short name
+    /// </summary>
     [JsonPropertyName("permalink")]
     public string Permalink { get; set; }
     
+    /// <summary>
+    /// Organization name
+    /// </summary>
     [JsonPropertyName("organization")]
     public string Organization { get; set; }
 }

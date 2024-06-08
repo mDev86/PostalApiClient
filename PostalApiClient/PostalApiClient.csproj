@@ -80,6 +80,9 @@
       <Compile Update="v1\Models\MessageInfos\MessageSpamCheck.cs">
         <DependentUpon>MessageInspection.cs</DependentUpon>
       </Compile>
+      <Compile Update="v1\Models\Webhook\EventPayloads\DNSCheckStatus.cs">
+        <DependentUpon>DNSErrorEvent.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
