@@ -60,16 +60,23 @@ public class PostalController : ControllerBase
 
 ### 3. Call API methods
 ```csharp
-var (result, error) = await _postalClient.GetMessageDeliveriesAsync(messageId); 
+var result = await _postalClient.GetMessageDeliveriesAsync(messageId); 
 
-if (error != null)
+if (result.IsT1)
 {
     // error handler
 }
 // continue code with success result
+
+return result.Match<IActionResult>(
+    response => Ok(response),
+    error => BadRequest(error));
+
 ```
-All methods return tuples with two nullable items: `Result` and `Error`. 
-Always check `Error`  for make sure the operation is successful.
+All methods always return type `OneOf<TSuccess, TError>`. 
+Your can check `result.IsT0` for make sure the operation is successful or `result.IsT1` that operation error.
+
+[More details about OneOf](https://github.com/mcintyre321/OneOf)
 
 Samples
 ```csharp
@@ -101,7 +108,7 @@ var message = new PostalMessage()
     }
 };
 
-var (result, error) = await _postalClient.SendMessageAsync(message); 
+var result = await _postalClient.SendMessageAsync(message); 
 
 // Get message details
 await _postalClient.GetMessageDetailsAsync(messageId, MessageExpansion.Status | MessageExpansion.PlainBody);
