@@ -2,6 +2,9 @@
 
 namespace PostalApiClient.v1.Models.Webhook;
 
+/// <summary>
+/// Type of webhook event
+/// </summary>
 [JsonConverter(typeof(JsonStringEnumMemberConverter))]
 [Flags]
 public enum WebhookEvent

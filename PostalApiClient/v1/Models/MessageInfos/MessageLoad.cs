@@ -2,22 +2,25 @@
 
 namespace PostalApiClient.v1.Models.MessageInfos;
 
+/// <summary>
+/// Message of load
+/// </summary>
 public class MessageLoad
 {
     private HttpUserAgentInformation? _userAgentInformation;
     
     /// <summary>
-    /// The ip address.
+    /// The ip address
     /// </summary>
     public string IpAddress { get; init; }
 
     /// <summary>
-    /// The user agent.
+    /// The user agent
     /// </summary>
     public string UserAgent { get; init; }
 
     /// <summary>
-    /// The timestamp.
+    /// The timestamp
     /// </summary>
     public DateTime? TimeStamp { get; init; }
 

@@ -2,6 +2,9 @@
 
 namespace PostalApiClient.v1.Models.MessageInfos;
 
+/// <summary>
+/// Type of message direction
+/// </summary>
 [JsonConverter(typeof(JsonStringEnumMemberConverter))]
 public enum MessageDirection
 {

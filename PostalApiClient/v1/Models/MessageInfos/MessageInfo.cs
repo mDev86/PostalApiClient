@@ -16,17 +16,17 @@ public class MessageInfo
     public int Id { get; init; }
 
     /// <summary>
-    /// Token.
+    /// Token
     /// </summary>
     public string Token { get; init; }
 
     /// <summary>
-    /// Status.
+    /// Status
     /// </summary>
     public MessageStatus Status { get; init; }
 
     /// <summary>
-    /// Details.
+    /// Details
     /// </summary>
     public MessageDetail Details { get; init; }
 
@@ -36,17 +36,17 @@ public class MessageInfo
     public MessageInspection? Inspection { get; init; }
 
     /// <summary>
-    /// Plain_body.
+    /// Plain_body
     /// </summary>
     public string? PlainBody { get; init; }
 
     /// <summary>
-    /// Html_body.
+    /// Html_body
     /// </summary>
     public string? HtmlBody { get; init; }
 
     /// <summary>
-    /// Attachments.
+    /// Attachments
     /// </summary>
     public List<MessageAttachment> Attachments { get; init; }
 
@@ -65,12 +65,12 @@ public class MessageInfo
     }
     
     /// <summary>
-    /// Common named message headers.
+    /// Common named message headers
     /// </summary>
     public MessageHeader? CommonHeaders { get; private init; }
 
     /// <summary>
-    /// Raw_message.
+    /// Raw_message
     /// </summary>
     public string? RawMessage { get; init; }
 

@@ -11,7 +11,7 @@ public class WebhookPayloadMessage
     private DateTime? _timestampDateTime;
 
     /// <summary>
-    /// The message identifier int
+    /// The message internal identifier
     /// </summary>
     [JsonPropertyName("id")]
     public int Id { get; set; }
@@ -29,7 +29,7 @@ public class WebhookPayloadMessage
     public MessageDirection Direction { get; set; }
 
     /// <summary>
-    /// The message id string
+    /// The message id
     /// </summary>
     [JsonPropertyName("message_id" )]
     public string MessageId { get; set; }

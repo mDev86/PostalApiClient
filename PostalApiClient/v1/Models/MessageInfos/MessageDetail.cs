@@ -1,16 +1,19 @@
 ﻿namespace PostalApiClient.v1.Models.MessageInfos;
 
+/// <summary>
+/// Details about message 
+/// </summary>
 public class MessageDetail
 {
     private DateTime? _timestampDateTime;
 
     /// <summary>
-    /// The e-mail addresses of the recipients.
+    /// The e-mail addresses of the recipients
     /// </summary>
     public string RcptTo { get; init; }
 
     /// <summary>
-    /// The from email address.
+    /// The from email address
     /// </summary>
     public string MailFrom { get; init; }
 
@@ -20,7 +23,7 @@ public class MessageDetail
     public string Subject { get; init; }
 
     /// <summary>
-    /// The message id string.
+    /// The message id string
     /// </summary>
     public string MessageId { get; init; }
 
@@ -45,7 +48,7 @@ public class MessageDetail
     }
 
     /// <summary>
-    /// The direction of the message.
+    /// The direction of the message
     /// </summary>
     public MessageDirection Direction { get; init; }
 
@@ -69,5 +72,8 @@ public class MessageDetail
     /// </summary>
     public string Tag { get; init; }
 
+    /// <summary>
+    /// Received over an SSL connection
+    /// </summary>
     public bool ReceivedWithSSL { get; init; }
 }

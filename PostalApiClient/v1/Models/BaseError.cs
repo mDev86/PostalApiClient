@@ -1,7 +1,7 @@
 ﻿namespace PostalApiClient.v1.Models;
 
 /// <summary>
-/// The message data.
+/// The common error message data
 /// </summary>
 public class BaseError
 {
@@ -11,7 +11,7 @@ public class BaseError
     public ErrorCode Code { get; init; }
 
     /// <summary>
-    /// Gets or sets the messages.
+    /// Gets or sets the messages
     /// </summary>
     public string? Message { get; init; }
 

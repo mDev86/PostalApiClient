@@ -32,5 +32,8 @@ public enum MessageExpansion
     [JsonPropertyName("raw_message")]
     RawMessage = 128,
 
+    /// <summary>
+    /// Include all data for message
+    /// </summary>
     All = Status | Details | Inspection | PlainBody | HtmlBody | Attachments | Headers | RawMessage
 }

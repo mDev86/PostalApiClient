@@ -2,6 +2,9 @@
 
 namespace PostalApiClient.v1.Models.MessageInfos;
 
+/// <summary>
+/// Standards email headers
+/// </summary>
 public class MessageHeader
 {
     public ICollection<string> Received { get; init; }

@@ -1,5 +1,8 @@
 ﻿namespace PostalApiClient.v1.Models.MessageInfos;
 
+/// <summary>
+/// Message inspection info
+/// </summary>
 public class MessageInspection
 {
     /// <summary>

@@ -2,12 +2,20 @@
 
 namespace PostalApiClient.v1.Models.MessageInfos;
 
+/// <summary>
+/// Attachment
+/// </summary>
 public class MessageAttachment
 {
+    /// <summary>
+    /// Name of attached file
+    /// </summary>
     [JsonPropertyName("filename")]
     public string FileName { get; init; }
 
-    // [JsonPropertyName("content_type")]
+    /// <summary>
+    /// Content type
+    /// </summary>
     public string ContentType { get; init; }
 
     /// <summary>

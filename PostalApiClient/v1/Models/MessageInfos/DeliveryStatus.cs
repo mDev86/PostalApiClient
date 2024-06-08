@@ -2,6 +2,9 @@
 
 namespace PostalApiClient.v1.Models.MessageInfos;
 
+/// <summary>
+/// Message delivery status
+/// </summary>
 [JsonConverter(typeof(JsonStringEnumMemberConverter))]
 public enum DeliveryStatus
 {

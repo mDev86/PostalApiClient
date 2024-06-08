@@ -2,6 +2,9 @@
 
 namespace PostalApiClient.v1.Models.MessageInfos;
 
+/// <summary>
+/// Message of click 
+/// </summary>
 public class MessageClick
 {
     private HttpUserAgentInformation? _userAgentInformation;

@@ -1,6 +1,5 @@
 ﻿using OneOf;
 using PostalApiClient.v1.Models;
-using PostalApiClient.v1.Models.MessageInfos;
 using PostalApiClient.v1.Sends.Models;
 
 namespace PostalApiClient.v1;
@@ -55,9 +54,9 @@ public partial class PostalClient
     /// <summary>
     /// Send message from raw Base64 encoded RFC2822 formatted message. https://apiv1.postalserver.io/controllers/send/raw.html
     /// </summary>
-    /// <param name="mailFrom">The address that should be logged as sending the message.</param>
-    /// <param name="rcptTo">The addresses this message should be sent to.</param>
-    /// <param name="data">The base64 encoded RFC2822 message to send.</param>
+    /// <param name="mailFrom">The address that should be logged as sending the message</param>
+    /// <param name="rcptTo">The addresses this message should be sent to</param>
+    /// <param name="data">The base64 encoded RFC2822 message to send</param>
     /// <param name="bounce">Is this message a bounce?</param>
     /// <returns></returns>
     public async Task<OneOf<SendResponse, BaseError>> SendRawMessageAsync(string mailFrom, List<string> rcptTo, string data, bool? bounce = false)
@@ -69,6 +68,11 @@ public partial class PostalClient
             Bounce = bounce
         });
         
+    /// <summary>
+    /// Send message from raw Base64 encoded RFC2822 formatted message. https://apiv1.postalserver.io/controllers/send/raw.html
+    /// </summary>
+    /// <param name="requestModel">Model for send raw message</param>
+    /// <returns></returns>
     public async Task<OneOf<SendResponse, BaseError>> SendRawMessageAsync(PostalRawMessage requestModel)
         => await ExecuteAsync<SendResponse, BaseError>("send/raw", requestModel);
 }

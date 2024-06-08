@@ -8,6 +8,9 @@ using PostalApiClient.v1.Models.Webhook;
 
 namespace PostalApiClient.Utilities;
 
+/// <summary>
+/// Request verifier from Postal webhook 
+/// </summary>
 public class PostalWebhookVerifier
 {
     private const string SignatureHeaderName = "X-Postal-Signature-256";

@@ -1,7 +1,7 @@
 ﻿namespace PostalApiClient.v1.Models.MessageInfos;
 
 /// <summary>
-/// The message status details.
+/// The message status details
 /// </summary>
 public class MessageStatus
 {
@@ -9,17 +9,17 @@ public class MessageStatus
     private DateTime? _holdExpiryDateTime;
 
     /// <summary>
-    /// Gets or sets the status.
+    /// Gets or sets the status
     /// </summary>
     public DeliveryStatus Status { get; init; }
 
     /// <summary>
-    /// Gets or sets the held.
+    /// Gets or sets the held
     /// </summary>
     public bool? Held { get; init; }
 
     /// <summary>
-    /// Gets or sets the hold expiry.
+    /// Gets or sets the hold expiry
     /// </summary>
     public double? HoldExpiry { get; init; }
 
@@ -29,7 +29,7 @@ public class MessageStatus
     public double? LastDeliveryAttempt { get; init; }
     
     /// <summary>
-    /// Gets or sets the last delivery attempt DateTime.
+    /// Gets or sets the last delivery attempt DateTime
     /// </summary>
     public DateTime? LastDeliveryAttemptDateTime
     {
@@ -44,7 +44,7 @@ public class MessageStatus
     }
     
     /// <summary>
-    /// Gets or sets the last delivery attempt DateTime.
+    /// Gets or sets the last delivery attempt DateTime
     /// </summary>
     public DateTime? HoldExpiryDateTime
     {

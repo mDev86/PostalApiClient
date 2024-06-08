@@ -3,7 +3,7 @@
 namespace PostalApiClient.v1.Models;
 
 /// <summary>
-/// The api response retrieving a single message.
+/// The api response retrieving a single message
 /// </summary>
 public class BaseResponse
 {

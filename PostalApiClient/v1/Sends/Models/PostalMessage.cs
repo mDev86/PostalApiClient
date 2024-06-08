@@ -1,5 +1,8 @@
 ﻿namespace PostalApiClient.v1.Sends.Models;
 
+/// <summary>
+/// Model for send message by Postal server
+/// </summary>
 public class PostalMessage
 {
     /// <summary>
@@ -27,6 +30,9 @@ public class PostalMessage
     /// </summary>
     public string? Sender { get; set; }
 
+    /// <summary>
+    /// The subject of message
+    /// </summary>
     public string? Subject { get; set; }
 
     /// <summary>
