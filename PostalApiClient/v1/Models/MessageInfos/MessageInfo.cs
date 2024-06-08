@@ -11,7 +11,7 @@ public class MessageInfo
     private IDictionary<string, ICollection<string>>? _headers;
     
     /// <summary>
-    /// Identifier.
+    /// Internal message identifier
     /// </summary>
     public int Id { get; init; }
 
