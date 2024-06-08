@@ -1,4 +1,5 @@
-﻿using PostalApiClient.v1.Models;
+﻿using OneOf;
+using PostalApiClient.v1.Models;
 using PostalApiClient.v1.Models.MessageInfos;
 using PostalApiClient.v1.Sends.Models;
 
@@ -23,7 +24,7 @@ public partial class PostalClient
     /// <param name="headers">A hash of additional headers</param>
     /// <param name="bounce">Is this message a bounce?</param>
     /// <returns></returns>
-    public async Task<(SendResponse? Result, SendError? Error)> SendMessageAsync(string from, List<string> to, List<string>? cc = null, List<string>? bcc = null,
+    public async Task<OneOf<SendResponse, SendError>> SendMessageAsync(string from, List<string> to, List<string>? cc = null, List<string>? bcc = null,
         string? sender = null, string? subject = null, string? tag = null, string? replyTo = null, string? plainBody = null,
         string? htmlBody = null, List<PostalMessageAttachment>? attachments = null, IDictionary<string, string>? headers = null,
         bool bounce = false)
@@ -48,7 +49,7 @@ public partial class PostalClient
     /// Sends a message. https://apiv1.postalserver.io/controllers/send/message.html
     /// </summary>
     /// <returns></returns>
-    public async Task<(SendResponse? Result, SendError? Error)> SendMessageAsync(PostalMessage requestModel)
+    public async Task<OneOf<SendResponse, SendError>> SendMessageAsync(PostalMessage requestModel)
         => await ExecuteAsync<SendResponse, SendError>("send/message", requestModel);
     
     /// <summary>
@@ -59,7 +60,7 @@ public partial class PostalClient
     /// <param name="data">The base64 encoded RFC2822 message to send.</param>
     /// <param name="bounce">Is this message a bounce?</param>
     /// <returns></returns>
-    public async Task<(SendResponse? Result, BaseError? Error)> SendRawMessageAsync(string mailFrom, List<string> rcptTo, string data, bool? bounce = false)
+    public async Task<OneOf<SendResponse, BaseError>> SendRawMessageAsync(string mailFrom, List<string> rcptTo, string data, bool? bounce = false)
         => await SendRawMessageAsync(new PostalRawMessage
         {
             MailFrom = mailFrom,
@@ -68,6 +69,6 @@ public partial class PostalClient
             Bounce = bounce
         });
         
-    public async Task<(SendResponse? Result, BaseError? Error)> SendRawMessageAsync(PostalRawMessage requestModel)
+    public async Task<OneOf<SendResponse, BaseError>> SendRawMessageAsync(PostalRawMessage requestModel)
         => await ExecuteAsync<SendResponse, BaseError>("send/raw", requestModel);
 }

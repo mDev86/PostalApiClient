@@ -1,4 +1,5 @@
-﻿using PostalApiClient.v1.Messages.Models;
+﻿using OneOf;
+using PostalApiClient.v1.Messages.Models;
 using PostalApiClient.v1.Models.MessageInfos;
 
 namespace PostalApiClient.v1;
@@ -15,7 +16,7 @@ public partial class PostalClient
     /// If set Expansions = true raised Internal exception on server (500).
     /// Therefore, we transform all available values into a collection
     /// </remarks>
-    public async Task<(MessageInfo? Result, MessageError? Error)> GetMessageDetailsAsync(int messageId, MessageExpansion? expansions = null)
+    public async Task<OneOf<MessageInfo, MessageError>> GetMessageDetailsAsync(int messageId, MessageExpansion? expansions = null)
         => await ExecuteAsync<MessageInfo, MessageError>("messages/message",
             new
             {
@@ -29,7 +30,7 @@ public partial class PostalClient
     /// </summary>
     /// <param name="messageId">The id of the message</param>
     /// <returns></returns>
-    public async Task<(ICollection<MessageDeliveryResponse>? Result, MessageError? Error)> GetMessageDeliveriesAsync(int messageId)
+    public async Task<OneOf<ICollection<MessageDeliveryResponse>, MessageError>> GetMessageDeliveriesAsync(int messageId)
         => await ExecuteAsync<ICollection<MessageDeliveryResponse>, MessageError>("messages/deliveries",
             new {Id = messageId});
 }

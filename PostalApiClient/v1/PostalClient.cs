@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
+using OneOf;
 using PostalApiClient.v1.Models;
 
 namespace PostalApiClient.v1;
@@ -52,7 +53,7 @@ public partial class PostalClient
     /// <typeparam name="TSuccess">Response model type for success action</typeparam>
     /// <typeparam name="TError">Response model type for error action</typeparam>
     /// <returns></returns>
-    private async Task<(TSuccess?, TError?)> ExecuteAsync<TSuccess, TError>(string uri, object bodyObject) 
+    private async Task<OneOf<TSuccess, TError>> ExecuteAsync<TSuccess, TError>(string uri, object bodyObject) 
         where TError: BaseError, new()
     {
         HttpResponseMessage response;
@@ -62,29 +63,29 @@ public partial class PostalClient
         }
         catch (Exception e)
         {
-            return (default,
+            return 
                 new TError
                 {
                     Code = ErrorCode.ServerUnavailable,
                     Message = e.Message
-                });
+                };
         }
 
         var responseString = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {
-            return (default, new TError
+            return new TError
             {
                 Code = ErrorCode.ServerUnavailable,
                 Message = $"Postal server return http status: {(int) response.StatusCode} ({response.StatusCode})"
-            });
+            };
         }
 
         var baseResponse = JsonSerializer.Deserialize<BaseResponse>(responseString, _jsonSerializerOptions);
         
         return baseResponse!.Status != Status.Success
-            ? (default, baseResponse.Data.Deserialize<TError>(_jsonSerializerOptions))
-            : (baseResponse.Data.Deserialize<TSuccess>(_jsonSerializerOptions), null);
+            ? baseResponse.Data.Deserialize<TError>(_jsonSerializerOptions)
+            : baseResponse.Data.Deserialize<TSuccess>(_jsonSerializerOptions);
     }
 
     private static void CustomSnakeCseLowerContractModifier(JsonTypeInfo typeInfo)
