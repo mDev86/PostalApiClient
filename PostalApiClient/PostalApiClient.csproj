@@ -14,7 +14,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>Postal Postal.io PostalServer Api mail</PackageTags>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>1.2.0</Version>
+        <Version>1.2.1</Version>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -24,10 +24,10 @@
     <ItemGroup>
       <PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
-      <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
-      <PackageReference Include="MyCSharp.HttpUserAgentParser" Version="3.0.3" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
+      <PackageReference Include="MyCSharp.HttpUserAgentParser" Version="3.0.2" />
       <PackageReference Include="OneOf" Version="3.0.271" />
     </ItemGroup>
 
