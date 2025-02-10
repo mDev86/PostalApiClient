@@ -55,7 +55,7 @@ public static class ConfigurationExtensions
             services.PostConfigure<Options>(configure.Invoke);
         }
 
-        services.AddScoped<PostalWebhookVerifier>();
+        services.AddSingleton<PostalWebhookVerifier>();
         
         return services
             .AddHttpClient<PostalClient>();

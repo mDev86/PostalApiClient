@@ -46,7 +46,7 @@ public class MessageClickEvent
         {
             if (_userAgentInformation == null && !string.IsNullOrWhiteSpace(UserAgent))
             {
-                _userAgentInformation = HttpUserAgentParser.Parse(UserAgent);
+                _userAgentInformation = HttpUserAgentParser.Parse(UserAgent!);
             }
             return _userAgentInformation;
         }
