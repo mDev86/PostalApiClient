@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>1.1.0</Version>
+        <Version>1.2.0</Version>
         <Title>PostalApiClient.Mvc.Extensions</Title>
         <Description>Api client for mail delivery platform Postal. Extenions for MVC</Description>
         <Copyright>2024 mDev</Copyright>
@@ -14,6 +14,7 @@
         <RepositoryUrl>https://github.com/mDev86/PostalApiClient</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>Postal Postal.io PostalServer Api mail</PackageTags>
+        <LangVersion>12</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
