@@ -21,7 +21,8 @@ public partial class PostalClient
             new
             {
                 Id = internalMessageId,
-                Expansions = Enum.GetValues<MessageExpansion>()
+                Expansions = Enum.GetValues(typeof(MessageExpansion))
+                    .Cast<MessageExpansion>()
                     .Where(v => expansions?.HasFlag(v) == true)
             });
 

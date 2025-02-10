@@ -1,9 +1,11 @@
 ﻿using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Security;
 using PostalApiClient.v1.Models.Webhook;
 
 namespace PostalApiClient.Utilities;
@@ -14,7 +16,7 @@ namespace PostalApiClient.Utilities;
 public class PostalWebhookVerifier
 {
     private const string SignatureHeaderName = "X-Postal-Signature-256";
-    private readonly byte[] dkim;
+    private readonly RSA _rsa;
     
     public PostalWebhookVerifier(IOptions<Options> options)
     {
@@ -22,7 +24,8 @@ public class PostalWebhookVerifier
         {
             throw new OptionsValidationException("PostalClient.DkimPublicKey", typeof(string), new[] {"Dkim public key required for postal webhook verifier"});
         }
-        dkim = Convert.FromBase64String(options.Value.DkimP);
+
+        _rsa = CreateRSAFromFromPublicKey(options.Value.DkimP);
     }
     
     /// <summary>
@@ -60,23 +63,29 @@ public class PostalWebhookVerifier
     /// <returns></returns>
     /// <exception cref="CryptographicException"></exception>
     public bool IsSignatureVerified(string payload, string signature256)
-    {
-        var rsa = PublicKey.CreateFromSubjectPublicKeyInfo(dkim, out _)
-            .GetRSAPublicKey();
-        
-        if (rsa is null)
-        {
-            throw new CryptographicException("Public key is are not RSA key");
-        }
-
-        return rsa.VerifyData(
+        => _rsa.VerifyData(
             Encoding.UTF8.GetBytes(payload),
             Convert.FromBase64String(signature256),
             HashAlgorithmName.SHA256,
             RSASignaturePadding.Pkcs1);
-    }
     
     private bool IsSignatureVerified(string payload, IHeaderDictionary requestHeaders)
         => requestHeaders.TryGetValue(SignatureHeaderName, out var signature) &&
            IsSignatureVerified(payload, signature!);
+    
+    
+    private RSA CreateRSAFromFromPublicKey(string dkim)
+    {
+        AsymmetricKeyParameter asymmetricKeyParameter = PublicKeyFactory.CreateKey(Convert.FromBase64String(dkim));
+        RsaKeyParameters rsaKeyParameters = (RsaKeyParameters) asymmetricKeyParameter;
+        var rsaParameters = new RSAParameters
+        {
+            Modulus = rsaKeyParameters.Modulus.ToByteArrayUnsigned(),
+            Exponent = rsaKeyParameters.Exponent.ToByteArrayUnsigned()
+        };
+        var rsa = new RSACryptoServiceProvider();
+        rsa.ImportParameters(rsaParameters);
+
+        return rsa;
+    }
 }

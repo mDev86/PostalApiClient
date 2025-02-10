@@ -1,11 +1,10 @@
-using System.Net.Http.Json;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
-using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
 using OneOf;
+using PostalApiClient.Utilities;
 using PostalApiClient.v1.Models;
 
 namespace PostalApiClient.v1;
@@ -25,7 +24,6 @@ public partial class PostalClient
     /// </summary>
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-
     public PostalClient(HttpClient httpClient, IOptions<Options> options)
     {
         httpClient.BaseAddress = new Uri($"{options.Value.Server}/api/v1/");
@@ -36,10 +34,7 @@ public partial class PostalClient
         
         _jsonSerializerOptions = new JsonSerializerOptions
         {
-            TypeInfoResolver = new DefaultJsonTypeInfoResolver
-            {
-                Modifiers = { CustomSnakeCseLowerContractModifier }
-            },
+            PropertyNamingPolicy = new CustomSnakeCseLowerPolicy(),
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             Converters = { new JsonStringEnumMemberConverter() }
         };
@@ -59,7 +54,11 @@ public partial class PostalClient
         HttpResponseMessage response;
         try
         {
-            response = await _httpClient.PostAsJsonAsync(uri, bodyObject, _jsonSerializerOptions);
+            
+            var content = new StringContent(JsonSerializer.Serialize(bodyObject, _jsonSerializerOptions),
+                Encoding.UTF8,
+                "application/json");
+            response = await _httpClient.PostAsync(uri, content);
         }
         catch (Exception e)
         {
@@ -86,25 +85,5 @@ public partial class PostalClient
         return baseResponse!.Status != Status.Success
             ? baseResponse.Data.Deserialize<TError>(_jsonSerializerOptions)
             : baseResponse.Data.Deserialize<TSuccess>(_jsonSerializerOptions);
-    }
-
-    private static void CustomSnakeCseLowerContractModifier(JsonTypeInfo typeInfo)
-    {
-        var regex = new Regex("(?<!^)(?=[A-Z])");
-
-        foreach (JsonPropertyInfo propertyInfo in typeInfo.Properties)
-        {
-            var nameSplit = regex.Split(propertyInfo.Name);
-            if (nameSplit.Length > 1)
-            {
-                propertyInfo.Name = string.Join("_", nameSplit);
-            }
-            else if (propertyInfo.Name == "Expansions")
-            {
-                propertyInfo.Name = "_" + propertyInfo.Name;
-            }
-
-            propertyInfo.Name = propertyInfo.Name.ToLower();
-        }
     }
 }
