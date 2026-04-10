@@ -36,23 +36,23 @@ public class PostalWebhook
             _payload = value;
             if (WebhookEvent.MessageStatusEvent.HasFlag(Event))
             {
-                MessageStatusEvent = value.Deserialize<MessageStatusEvent>();
+                MessageStatusEvent = value.Deserialize<MessageStatusEvent>(PostalClient.JsonSerializerOptions);
             }
             else if (WebhookEvent.MessageBounced.HasFlag(Event))
             {
-                MessageBounceEvent = value.Deserialize<MessageBounceEvent>();
+                MessageBounceEvent = value.Deserialize<MessageBounceEvent>(PostalClient.JsonSerializerOptions);
             }
             else if (WebhookEvent.MessageLinkClicked.HasFlag(Event))
             {
-                MessageClickEvent = value.Deserialize<MessageClickEvent>();
+                MessageClickEvent = value.Deserialize<MessageClickEvent>(PostalClient.JsonSerializerOptions);
             }
             else if (WebhookEvent.MessageLoaded.HasFlag(Event))
             {
-                MessageLoadedEvent = value.Deserialize<MessageLoadedEvent>();
+                MessageLoadedEvent = value.Deserialize<MessageLoadedEvent>(PostalClient.JsonSerializerOptions);
             }
             else if (WebhookEvent.DomainDNSError.HasFlag(Event))
             {
-                DNSErrorEvent = value.Deserialize<DNSErrorEvent>();
+                DNSErrorEvent = value.Deserialize<DNSErrorEvent>(PostalClient.JsonSerializerOptions);
             }
         }
     }

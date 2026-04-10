@@ -3,11 +3,13 @@ using System.Text.RegularExpressions;
 
 namespace PostalApiClient.Utilities;
 
-internal class CustomSnakeCseLowerPolicy : JsonNamingPolicy
+internal class CustomSnakeCaseLowerPolicy : JsonNamingPolicy
 {
+    private static readonly Regex NameSplitRegex = new Regex("(?<!^)(?=[A-Z])", RegexOptions.Compiled);
+
     public override string ConvertName(string name)
     {
-        var nameSplit = Regex.Split(name, "(?<!^)(?=[A-Z])");
+        var nameSplit = NameSplitRegex.Split(name);
         
         if (nameSplit.Length > 1)
         {

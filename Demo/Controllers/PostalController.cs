@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PostalApiClient.Mvc.Extensions;
 using PostalApiClient.Utilities;
@@ -19,7 +22,7 @@ public class PostalController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Send()
+    public async Task<IActionResult> Send(CancellationToken cancellationToken = default)
     {
         var message = new PostalMessage()
         {
@@ -48,7 +51,7 @@ public class PostalController : ControllerBase
             }
         };
 
-        var result = await _postalClient.SendMessageAsync(message);
+        var result = await _postalClient.SendMessageAsync(message, cancellationToken);
 
         return result.Match<IActionResult>(
             response => Ok(response),
@@ -57,11 +60,11 @@ public class PostalController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetMessageDetails(int messageId, bool? allExpansions)
+    public async Task<IActionResult> GetMessageDetails(int messageId, bool? allExpansions, CancellationToken cancellationToken = default)
     {
         var result = allExpansions == true
-            ? await _postalClient.GetMessageDetailsAsync(messageId, MessageExpansion.All)
-            : await _postalClient.GetMessageDetailsAsync(messageId);
+            ? await _postalClient.GetMessageDetailsAsync(messageId, MessageExpansion.All, cancellationToken)
+            : await _postalClient.GetMessageDetailsAsync(messageId, cancellationToken: cancellationToken);
 
         return result.Match<IActionResult>(
             response => Ok(response),
@@ -70,10 +73,10 @@ public class PostalController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetMessageDetailsWithSomeExpansions(int messageId)
+    public async Task<IActionResult> GetMessageDetailsWithSomeExpansions(int messageId, CancellationToken cancellationToken = default)
     {
         var result = await _postalClient.GetMessageDetailsAsync(messageId,
-            MessageExpansion.Status | MessageExpansion.PlainBody);
+            MessageExpansion.Status | MessageExpansion.PlainBody, cancellationToken);
 
         return result.Match<IActionResult>(
             response => Ok(response),
@@ -82,9 +85,9 @@ public class PostalController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetMessageDeliveries(int messageId)
+    public async Task<IActionResult> GetMessageDeliveries(int messageId, CancellationToken cancellationToken = default)
     {
-        var result = await _postalClient.GetMessageDeliveriesAsync(messageId);
+        var result = await _postalClient.GetMessageDeliveriesAsync(messageId, cancellationToken);
 
         if (result.IsT1)
         {

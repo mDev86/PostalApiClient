@@ -22,35 +22,38 @@ public partial class PostalClient
     /// <param name="attachments">An array of attachments for this e-mail</param>
     /// <param name="headers">A hash of additional headers</param>
     /// <param name="bounce">Is this message a bounce?</param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<OneOf<SendResponse, SendError>> SendMessageAsync(string from, List<string> to, List<string>? cc = null, List<string>? bcc = null,
         string? sender = null, string? subject = null, string? tag = null, string? replyTo = null, string? plainBody = null,
         string? htmlBody = null, List<PostalMessageAttachment>? attachments = null, IDictionary<string, string>? headers = null,
-        bool bounce = false)
+        bool bounce = false, CancellationToken cancellationToken = default)
         => await SendMessageAsync(new PostalMessage
-        {
-            To = to,
-            Cc = cc,
-            Bcc = bcc,
-            From = from,
-            Sender = sender,
-            Subject = subject,
-            Tag = tag,
-            ReplyTo = replyTo,
-            PlainBody = plainBody,
-            HtmlBody = htmlBody,
-            Attachments = attachments,
-            Headers = headers,
-            Bounce = bounce
-        });
+            {
+                To = to,
+                Cc = cc,
+                Bcc = bcc,
+                From = from,
+                Sender = sender,
+                Subject = subject,
+                Tag = tag,
+                ReplyTo = replyTo,
+                PlainBody = plainBody,
+                HtmlBody = htmlBody,
+                Attachments = attachments,
+                Headers = headers,
+                Bounce = bounce
+            },
+            cancellationToken: cancellationToken);
 
     /// <summary>
     /// Sends a message. https://apiv1.postalserver.io/controllers/send/message.html
     /// </summary>
     /// <returns></returns>
-    public async Task<OneOf<SendResponse, SendError>> SendMessageAsync(PostalMessage requestModel)
-        => await ExecuteAsync<SendResponse, SendError>("send/message", requestModel);
-    
+    public async Task<OneOf<SendResponse, SendError>> SendMessageAsync(PostalMessage requestModel,
+        CancellationToken cancellationToken = default)
+        => await ExecuteAsync<SendResponse, SendError>("send/message", requestModel, cancellationToken);
+
     /// <summary>
     /// Send message from raw Base64 encoded RFC2822 formatted message. https://apiv1.postalserver.io/controllers/send/raw.html
     /// </summary>
@@ -58,21 +61,26 @@ public partial class PostalClient
     /// <param name="rcptTo">The addresses this message should be sent to</param>
     /// <param name="data">The base64 encoded RFC2822 message to send</param>
     /// <param name="bounce">Is this message a bounce?</param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<OneOf<SendResponse, BaseError>> SendRawMessageAsync(string mailFrom, List<string> rcptTo, string data, bool? bounce = false)
+    public async Task<OneOf<SendResponse, BaseError>> SendRawMessageAsync(string mailFrom, List<string> rcptTo,
+        string data, bool? bounce = false, CancellationToken cancellationToken = default)
         => await SendRawMessageAsync(new PostalRawMessage
-        {
-            MailFrom = mailFrom,
-            RcptTo = rcptTo,
-            Data = data,
-            Bounce = bounce
-        });
-        
+            {
+                MailFrom = mailFrom,
+                RcptTo = rcptTo,
+                Data = data,
+                Bounce = bounce
+            },
+            cancellationToken);
+
     /// <summary>
     /// Send message from raw Base64 encoded RFC2822 formatted message. https://apiv1.postalserver.io/controllers/send/raw.html
     /// </summary>
     /// <param name="requestModel">Model for send raw message</param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<OneOf<SendResponse, BaseError>> SendRawMessageAsync(PostalRawMessage requestModel)
-        => await ExecuteAsync<SendResponse, BaseError>("send/raw", requestModel);
+    public async Task<OneOf<SendResponse, BaseError>> SendRawMessageAsync(PostalRawMessage requestModel,
+        CancellationToken cancellationToken = default)
+        => await ExecuteAsync<SendResponse, BaseError>("send/raw", requestModel, cancellationToken);
 }

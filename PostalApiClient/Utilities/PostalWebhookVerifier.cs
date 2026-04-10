@@ -3,9 +3,12 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+#if NETSTANDARD2_0
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
+#endif
+using PostalApiClient.v1;
 using PostalApiClient.v1.Models.Webhook;
 
 namespace PostalApiClient.Utilities;
@@ -53,7 +56,7 @@ public class PostalWebhookVerifier
     /// <returns></returns>
     public bool IsSignatureVerified(PostalWebhook payload, IHeaderDictionary requestHeaders)
         => requestHeaders.TryGetValue(SignatureHeaderName, out var signature) &&
-           IsSignatureVerified(JsonSerializer.Serialize(payload), signature!);
+           IsSignatureVerified(JsonSerializer.Serialize(payload, PostalClient.JsonSerializerOptions), signature!);
     
     /// <summary>
     /// Check postal webhook payload signature
@@ -72,10 +75,14 @@ public class PostalWebhookVerifier
     private bool IsSignatureVerified(string payload, IHeaderDictionary requestHeaders)
         => requestHeaders.TryGetValue(SignatureHeaderName, out var signature) &&
            IsSignatureVerified(payload, signature!);
-    
-    
+
     private RSA CreateRSAFromFromPublicKey(string dkim)
     {
+    #if NET6_0_OR_GREATER
+        var rsa = RSA.Create();
+        rsa.ImportSubjectPublicKeyInfo(Convert.FromBase64String(dkim), out _);
+        return rsa;
+    #else
         AsymmetricKeyParameter asymmetricKeyParameter = PublicKeyFactory.CreateKey(Convert.FromBase64String(dkim));
         RsaKeyParameters rsaKeyParameters = (RsaKeyParameters) asymmetricKeyParameter;
         var rsaParameters = new RSAParameters
@@ -83,9 +90,10 @@ public class PostalWebhookVerifier
             Modulus = rsaKeyParameters.Modulus.ToByteArrayUnsigned(),
             Exponent = rsaKeyParameters.Exponent.ToByteArrayUnsigned()
         };
-        var rsa = new RSACryptoServiceProvider();
+        var rsa = RSA.Create();
         rsa.ImportParameters(rsaParameters);
 
         return rsa;
+    #endif
     }
 }

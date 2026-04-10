@@ -60,7 +60,7 @@ public class MessageInfo
         init
         {
             _headers = value;
-            CommonHeaders = JsonSerializer.Deserialize<MessageHeader>(JsonSerializer.Serialize(value));
+            CommonHeaders = JsonSerializer.Deserialize<MessageHeader>(JsonSerializer.Serialize(value, PostalClient.JsonSerializerOptions));
         }
     }
     
